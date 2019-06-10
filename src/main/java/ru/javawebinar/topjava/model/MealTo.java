@@ -9,7 +9,7 @@ public class MealTo {
 
     private final int calories;
 
-    private final boolean excess;
+    private final Boolean excess;
 
     public MealTo(LocalDateTime dateTime, String description, int calories, boolean excess) {
         this.dateTime = dateTime;
@@ -30,7 +30,7 @@ public class MealTo {
         return calories;
     }
 
-    public boolean isExceed() {
+    public Boolean getExcess() {
         return excess;
     }
 
