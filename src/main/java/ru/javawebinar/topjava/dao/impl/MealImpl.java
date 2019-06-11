@@ -9,7 +9,19 @@ import java.util.stream.Collectors;
 public class MealImpl implements IMeal {
     @Override
     public void save(Meal meal) {
-        MealsUtil.meals.add(meal);
+        if (meal.getId() == null) {
+            MealsUtil.meals.add(meal);
+        } else {
+            MealsUtil.meals = MealsUtil.meals.stream().map(m -> {
+                if(m.getId().equals(meal.getId())) {
+                    return meal;
+                } else {
+                    return m;
+                }
+
+            }).collect(Collectors.toList());
+        }
+
     }
 
     @Override
