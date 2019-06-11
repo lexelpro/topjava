@@ -36,7 +36,7 @@
             <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:MM:SS')}</td>
             <td>${meal.excess}</td>
             <td><a href="meals?id=${meal.id}">edit</a></td>
-            <td>delete</td>
+            <td><a href="meals?delete=true&id=${meal.id}">delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
