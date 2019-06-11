@@ -17,13 +17,15 @@
 <hr>
 <h1>User Meals</h1>
 <p>Meals size ${meals.size()}</p>
-<table cellspacing="1" cellpadding="1">
+<table cellspacing="1" cellpadding="1" border="1">
     <thead>
     <tr>
         <td>Название</td>
         <td>Калории</td>
         <td>Время</td>
         <td>Exceed</td>
+        <td>Edit</td>
+        <td>Delete</td>
     </tr>
     </thead>
     <tbody>
@@ -33,6 +35,8 @@
             <td>${meal.calories}</td>
             <td>${f:formatLocalDateTime(meal.dateTime, 'dd.MM.yyyy HH:MM:SS')}</td>
             <td>${meal.excess}</td>
+            <td><a href="meals?id=${meal.id}">edit</a></td>
+            <td>delete</td>
         </tr>
     </c:forEach>
     </tbody>
