@@ -3,15 +3,29 @@ package ru.javawebinar.topjava.repository.inmemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.model.AbstractNamedEntity;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.UserUtil;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
+
+    private List<User> repository = new CopyOnWriteArrayList<>();
+    private AtomicInteger counter = new AtomicInteger(0);
+
+    {
+        UserUtil.USERS.forEach(this::save);
+    }
+
+    public InMemoryUserRepositoryImpl() {
+    }
 
     @Override
     public boolean delete(int id) {
@@ -22,6 +36,10 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         log.info("save {}", user);
+        if (user.isNew()) {
+            user.setId(counter.incrementAndGet());
+        }
+        repository.add(user);
         return user;
     }
 
@@ -34,7 +52,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return Collections.emptyList();
+        repository.sort(Comparator.comparing(AbstractNamedEntity::getName));
+        return repository;
     }
 
     @Override
