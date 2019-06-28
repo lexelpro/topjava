@@ -61,7 +61,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        return jdbcTemplate.update("DELETE  FROM topjava.public.meals where id = ?", id) != 0;
     }
 
     String sql = "SELECT * FROM topjava.public.meals mls INNER JOIN topjava.public.user_meals um on um.meal_id = mls.id";
