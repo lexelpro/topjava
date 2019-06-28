@@ -61,6 +61,10 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
+        Meal meal = get(id, userId);
+        if (meal == null) {
+            return false;
+        }
         return jdbcTemplate.update("DELETE  FROM topjava.public.meals where id = ?", id) != 0;
     }
 
@@ -68,7 +72,11 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return jdbcTemplate.query(sql + " where mls.id=? and um.user_id=?", ROW_MAPPER, id, userId).get(0);
+        List<Meal> meals = jdbcTemplate.query(sql + " where mls.id=? and um.user_id=?", ROW_MAPPER, id, userId);
+        if (meals.isEmpty()) {
+            return null;
+        }
+        return meals.get(0);
     }
 
     @Override
