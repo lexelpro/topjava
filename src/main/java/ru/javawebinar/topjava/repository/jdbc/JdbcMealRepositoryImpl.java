@@ -64,15 +64,17 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         return false;
     }
 
+    String sql = "SELECT * FROM topjava.public.meals mls INNER JOIN topjava.public.user_meals um on um.meal_id = mls.id";
+
     @Override
     public Meal get(int id, int userId) {
-        return null;
+        return jdbcTemplate.query(sql + " where mls.id=? and um.user_id=?", ROW_MAPPER, id, userId).get(0);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
         return jdbcTemplate
-            .query("SELECT * FROM topjava.public.meals mls INNER JOIN topjava.public.user_meals um on um.meal_id = mls.id  WHERE um.user_id=?", ROW_MAPPER,
+            .query(sql + "  WHERE um.user_id=?", ROW_MAPPER,
                 userId);
     }
 
