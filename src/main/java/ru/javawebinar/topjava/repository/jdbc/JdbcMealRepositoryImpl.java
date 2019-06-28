@@ -74,7 +74,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         return jdbcTemplate
-            .query(sql + "  WHERE um.user_id=?", ROW_MAPPER,
+            .query(sql + "  WHERE um.user_id=? ORDER BY mls.date_time desc", ROW_MAPPER,
                 userId);
     }
 
