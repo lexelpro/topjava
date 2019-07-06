@@ -8,10 +8,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
+@SuppressWarnings("JpaQlInspection")
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "delete from Meal m where m.id = :id"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m from Meal m where m.user.id = :userId"),
-        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m from Meal m where m.dateTime between :start and :end and m.user.id = :userId")
+        @NamedQuery(name = Meal.DELETE, query = "delete from Meal m where m.id = :id and m.user.id = :userId"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m from Meal m where m.user.id = :userId ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m from Meal m where m.dateTime between :start and :end and m.user.id = :userId ORDER BY m.dateTime DESC")
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"date_time", "user_id"}, name = "meals_unique_user_datetime_idx")})
